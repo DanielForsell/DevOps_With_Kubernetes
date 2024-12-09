@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timestamp-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: timestamp
+  template:
+    metadata:
+      labels:
+        app: timestamp
+    spec:
+      containers:
+        - name: timestamp-writer
+          image: timestamp-writer
+          imagePullPolicy: Never
+          volumeMounts:
+            - name: shared-data
+              mountPath: /data
+        - name: timestamp-reader
+          image: timestamp-reader
+          imagePullPolicy: Never
+          volumeMounts:
+            - name: shared-data
+              mountPath: /data
+      volumes:
+      - name: shared-data
+        persistentVolumeClaim:
+            claimName: timestamp-claim

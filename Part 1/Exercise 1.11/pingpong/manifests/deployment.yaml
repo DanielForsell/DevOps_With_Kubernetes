@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ping-pong-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ping-pong
+  template:
+    metadata:
+      labels:
+        app: ping-pong
+    spec:
+      containers:
+        - name: ping-pong
+          image: danfor/ping-pong
+          imagePullPolicy: Never
+          volumeMounts:
+            - name: shared-data
+              mountPath: /data
+      volumes:
+      - name: shared-data
+        persistentVolumeClaim:
+            claimName: timestamp-claim
