@@ -1,19 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: log-output
+  name: ping-pong-app
   namespace: exercises
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: log-output
+      app: ping-pong
   template:
     metadata:
       labels:
-        app: log-output
+        app: ping-pong
     spec:
       containers:
-        - name: log-output
-          image: log-output
+        - name: ping-pong
+          image: ping-pong
           imagePullPolicy: Never
+ 
