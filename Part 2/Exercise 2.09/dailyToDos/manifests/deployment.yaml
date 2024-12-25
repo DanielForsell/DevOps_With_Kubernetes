@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-reminder
+  namespace: exercises
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-reminder
+  template:
+    metadata:
+      labels:
+        app: todo-reminder
+    spec:
+      containers:
+        - name: todo-reminder
+          image: todo-reminder
+          imagePullPolicy: Never

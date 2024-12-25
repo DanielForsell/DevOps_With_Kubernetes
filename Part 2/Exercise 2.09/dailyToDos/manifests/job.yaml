@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: todo-print
+  namespace: exercises
+spec:
+  schedule: "1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: todo-reminder
+            image: todo-reminder
+            imagePullPolicy: Never
+          restartPolicy: OnFailure

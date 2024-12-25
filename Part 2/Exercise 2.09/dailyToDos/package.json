@@ -1,0 +1,15 @@
+{
+    "name": "app1.1",
+    "version": "1.0.0",
+    "description": "",
+    "main": "todo-reminder.js",
+    "scripts": {
+      "start": "node todo-reminder.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.21.2",
+      "axios": "^1.7.9"
+    }
+  }
