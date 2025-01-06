@@ -4,11 +4,9 @@ on:
   push:
 
 env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  PROJECT_ID: dwk-gke-445811
   GKE_CLUSTER: dwk-cluster
   GKE_ZONE: europe-north1-b
-  IMAGE: dwk-environments
-  SERVICE: dwk-environments
   BRANCH: ${{ github.ref_name }}
 
 jobs:
@@ -41,14 +39,14 @@ jobs:
 
       # Build, tag, and push the first image
       - name: Build Image 1
-        run: docker build --tag "gcr.io/$PROJECT_ID/todo-backend:$BRANCH-$GITHUB_SHA" ./path-to-backend
+        run: docker build --tag "gcr.io/$PROJECT_ID/todo-backend:$BRANCH-$GITHUB_SHA" .
 
       - name: Push Image 1
         run: docker push "gcr.io/$PROJECT_ID/todo-backend:$BRANCH-$GITHUB_SHA"
 
       # Build, tag, and push the second image
       - name: Build Image 2
-        run: docker build --tag "gcr.io/$PROJECT_ID/todo-app:$BRANCH-$GITHUB_SHA" ./path-to-frontend
+        run: docker build --tag "gcr.io/$PROJECT_ID/todo-app:$BRANCH-$GITHUB_SHA" .
 
       - name: Push Image 2
         run: docker push "gcr.io/$PROJECT_ID/todo-app:$BRANCH-$GITHUB_SHA"
