@@ -2,13 +2,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - database/statefullset.yaml
-  - Project serve v1.3/manifests/deployment.yaml
-  - Project serve v1.3/manifests/service.yaml
-  - Project serve v1.3/manifests/ingress.yaml
-  - Project serve v1.3/manifests/secret.yaml
-  - todo backend/manifests/deployment.yaml
-  - todo backend/manifests/service.yaml
-  - todo backend/manifests/secret.yaml
+  - Project-serve-v1.3/manifests/deployment.yaml
+  - Project-serve-v1.3/manifests/service.yaml
+  - Project-serve-v1.3/manifests/ingress.yaml
+  - Project-serve-v1.3/manifests/secret.yaml
+  - todo-backend/manifests/deployment.yaml
+  - todo-backend/manifests/service.yaml
+  - todo-backend/manifests/secret.yaml
 images:
   - name: PROJECT/IMAGE
     newName: gcr.io/dwk-gke-445811/todo-backend
