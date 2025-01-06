@@ -61,5 +61,6 @@ jobs:
             PROJECT/IMAGE=gcr.io/$PROJECT_ID/todo-backend:$BRANCH-$GITHUB_SHA \
             PROJECT/IMAGE2=gcr.io/$PROJECT_ID/todo-app:$BRANCH-$GITHUB_SHA
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment $SERVICE
+          kubectl rollout status deployment/todo-backend
+          kubectl rollout status deployment/todo-app
           kubectl get services -o wide
