@@ -27,7 +27,7 @@ spec:
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: redis-secrets
+              name: frontend-redis-secrets
               key: REDIS_PASSWORD
   volumeClaimTemplates:
     - metadata:

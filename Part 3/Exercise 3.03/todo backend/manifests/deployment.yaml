@@ -20,15 +20,15 @@ spec:
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: redis-secrets
+                  name: backend-redis-secrets
                   key: REDIS_PASSWORD
             - name: REDIS_HOST
               valueFrom:
                 secretKeyRef:
-                  name: redis-secrets
+                  name: backend-redis-secrets
                   key: REDIS_HOST
             - name: REDIS_PORT
               valueFrom:
                 secretKeyRef:
-                  name: redis-secrets
+                  name: backend-redis-secrets
                   key: REDIS_PORT

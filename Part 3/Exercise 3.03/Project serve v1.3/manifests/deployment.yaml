@@ -16,11 +16,19 @@ spec:
       - name: todo-app
         image: PROJECT/IMAGE2
         imagePullPolicy: IfNotPresent
-        volumeMounts:
-            - name: shared-data
-              mountPath: /usr/src/app/files
-      volumes:
-      - name: shared-data
-        persistentVolumeClaim:
-            claimName: timestamp-claim
-        
+        env:
+              - name: REDIS_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: frontend-redis-secrets
+                    key: REDIS_PASSWORD
+              - name: REDIS_HOST
+                valueFrom:
+                  secretKeyRef:
+                    name: frontend-redis-secrets
+                    key: REDIS_HOST
+              - name: REDIS_PORT
+                valueFrom:
+                  secretKeyRef:
+                    name: frontend-redis-secrets
+                    key: REDIS_PORT

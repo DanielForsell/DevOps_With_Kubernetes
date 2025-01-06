@@ -1,45 +1,58 @@
-const path = require('path');
-const fs = require('fs');
-const fsPromises = require('fs/promises');
 const axios = require('axios');
+const Redis = require('redis');
 
-const directory = path.join('/', 'usr', 'src', 'app', 'files');
-const filePath = path.join(directory, 'image.jpg');
-const metadataPath = path.join(directory, 'metadata.json');
+const redisClient = Redis.createClient({
+  password: process.env.REDIS_PASSWORD,
+  socket: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT || 6379
+  }
+});
+
+redisClient.on('error', err => console.error('Redis Client Error', err));
+
+(async () => {
+  try {
+    await redisClient.connect();
+    console.log('Connected to Redis');
+  } catch (err) {
+    console.error('Redis connection failed:', err);
+  }
+})();
 
 const getCachedImage = async () => {
   try {
-    const metadata = JSON.parse(await fsPromises.readFile(metadataPath, 'utf-8'));
-    const currentTime = Date.now();
-    const oneHour = 60 * 60 * 1000;
+    const metadata = await redisClient.get('image:metadata');
+    if (metadata) {
+      const parsed = JSON.parse(metadata);
+      const currentTime = Date.now();
+      const oneHour = 60 * 60 * 1000;
 
-    // If the image is still valid, do nothing
-    if (currentTime - metadata.timestamp < oneHour) {
-      return;
+      if (currentTime - parsed.timestamp < oneHour) {
+        return;
+      }
     }
   } catch (err) {
     console.error('Error reading metadata:', err);
   }
 
-  // Refresh the image if metadata doesn't exist or is outdated
   await refreshImage();
 };
 
 const refreshImage = async () => {
   try {
-    await fsPromises.mkdir(directory, { recursive: true });
-
-    const response = await axios.get('https://picsum.photos/1200', { responseType: 'stream' });
-    const writer = fs.createWriteStream(filePath);
-    response.data.pipe(writer);
-
-    await new Promise((resolve, reject) => {
-      writer.on('finish', resolve);
-      writer.on('error', reject);
+    const response = await axios.get('https://picsum.photos/1200', { 
+      responseType: 'arraybuffer' 
     });
 
+    // Convert image to base64 and store in Redis
+    const imageBase64 = Buffer.from(response.data).toString('base64');
+    await redisClient.set('image:data', imageBase64);
+
+    // Save metadata
     const metadata = { timestamp: Date.now() };
-    await fsPromises.writeFile(metadataPath, JSON.stringify(metadata), 'utf-8');
+    await redisClient.set('image:metadata', JSON.stringify(metadata));
+
   } catch (err) {
     console.error('Error refreshing the image:', err);
   }
@@ -47,11 +60,30 @@ const refreshImage = async () => {
 
 const removeCachedImage = async () => {
   try {
-    await fsPromises.unlink(filePath);
-    await fsPromises.unlink(metadataPath);
+    await redisClient.del('image:data');
+    await redisClient.del('image:metadata');
   } catch (err) {
-    console.error('Error removing cached image or metadata:', err);
+    console.error('Error removing cached image:', err);
   }
 };
 
-module.exports = { getCachedImage, removeCachedImage };
+const getImage = async () => {
+  try {
+    const imageData = await redisClient.get('image:data');
+    return Buffer.from(imageData, 'base64');
+  } catch (err) {
+    console.error('Error getting image:', err);
+    return null;
+  }
+};
+
+process.on('SIGTERM', async () => {
+  try {
+    await redisClient.quit();
+    console.log('Redis connection closed');
+  } catch (err) {
+    console.error('Error during shutdown:', err);
+  }
+});
+
+module.exports = { getCachedImage, removeCachedImage, getImage };
