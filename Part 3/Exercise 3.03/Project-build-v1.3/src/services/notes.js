@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://todo-backend-svc:2346/todos'
+const baseUrl = '/backend/todos'
 
 
 const getAll = () => {
