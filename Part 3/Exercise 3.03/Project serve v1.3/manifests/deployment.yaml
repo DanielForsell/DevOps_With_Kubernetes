@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-app
+  template:
+    metadata:
+      labels:
+        app: todo-app
+    spec:
+      containers:
+      - name: todo-app
+        image: PROJECT/IMAGE2
+        imagePullPolicy: Never
+        volumeMounts:
+            - name: shared-data
+              mountPath: /usr/src/app/files
+      volumes:
+      - name: shared-data
+        persistentVolumeClaim:
+            claimName: timestamp-claim
+        
