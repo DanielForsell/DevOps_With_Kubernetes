@@ -39,14 +39,14 @@ jobs:
 
       # Build, tag, and push the first image
       - name: Build Image 1
-        run: docker build --tag "gcr.io/$PROJECT_ID/todo-backend:$BRANCH-$GITHUB_SHA" .
+        run: docker build --tag "gcr.io/$PROJECT_ID/todo-backend:$BRANCH-$GITHUB_SHA" ./Part 3/Exercise 3.03/todo backend
 
       - name: Push Image 1
         run: docker push "gcr.io/$PROJECT_ID/todo-backend:$BRANCH-$GITHUB_SHA"
 
       # Build, tag, and push the second image
       - name: Build Image 2
-        run: docker build --tag "gcr.io/$PROJECT_ID/todo-app:$BRANCH-$GITHUB_SHA" .
+        run: docker build --tag "gcr.io/$PROJECT_ID/todo-app:$BRANCH-$GITHUB_SHA" ./Part 3/Exercise 3.03/Project serve v1.3
 
       - name: Push Image 2
         run: docker push "gcr.io/$PROJECT_ID/todo-app:$BRANCH-$GITHUB_SHA"
