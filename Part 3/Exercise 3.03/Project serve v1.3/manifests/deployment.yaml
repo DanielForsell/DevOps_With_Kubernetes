@@ -15,7 +15,7 @@ spec:
       containers:
       - name: todo-app
         image: PROJECT/IMAGE2
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         volumeMounts:
             - name: shared-data
               mountPath: /usr/src/app/files

@@ -15,7 +15,7 @@ spec:
       containers:
         - name: todo-backend
           image: PROJECT/IMAGE
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           env:
             - name: REDIS_PASSWORD
               valueFrom:
