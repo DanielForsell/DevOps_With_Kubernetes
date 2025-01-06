@@ -14,5 +14,3 @@ images:
     newName: gcr.io/dwk-gke-445811/todo-backend
   - name: PROJECT/IMAGE2
     newName: gcr.io/dwk-gke-445811/todo-app
-  - name: PROJECT/IMAGE3
-    newName: redis:7
