@@ -118,7 +118,7 @@ process.on('SIGTERM', async () => {
 });
 
 app.get('/', (req, res) => {
-    res.status(200)
+    res.status(200).json({ status: 'ok', message: 'Todo backend service running' });
 });
 
 app.listen(PORT, () => {
