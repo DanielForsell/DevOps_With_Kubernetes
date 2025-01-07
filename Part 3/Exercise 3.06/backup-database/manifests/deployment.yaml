@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-backup
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database-backup
+  template:
+    metadata:
+      labels:
+        app: database-backup
+    spec:
+      containers:
+        - name: database-backup
+          image: database-backup-app
+          imagePullPolicy: IfNotPresent

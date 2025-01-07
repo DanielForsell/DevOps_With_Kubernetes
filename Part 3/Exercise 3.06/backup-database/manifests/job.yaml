@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: database-backup
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: database-backup
+            imagePullPolicy: Never
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: frontend-redis-secrets
+                  key: REDIS_PASSWORD
+            - name: BUCKET_NAME
+              value: "danfor-project-backup-database"
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+            - name: gcp-credentials
+              mountPath: "/gcp"
+              readOnly: true
+          volumes:
+          - name: redis-data
+            persistentVolumeClaim:
+              claimName: data-redis-0
+          - name: gcp-credentials
+            secret:
+              secretName: gcp-credentials
+          restartPolicy: OnFailure
