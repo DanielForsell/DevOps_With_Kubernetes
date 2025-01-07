@@ -22,45 +22,35 @@ const storage = new Storage({
 
 async function backup() {
   try {
-    // Ensure Redis connection
-    await redisClient.connect();
-    console.log('Connected to Redis');
+      // Connect to Redis
+      await redisClient.connect();
+      console.log('Connected to Redis');
 
-    // Trigger Redis SAVE command
-    const saveResult = await redisClient.save();
-    console.log('SAVE command result:', saveResult);
-    
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const backupPath = '/data/dump.rdb';
-    
-    // Verify file exists before upload
-    if (!fs.existsSync(backupPath)) {
-      throw new Error('dump.rdb not found at ' + backupPath);
-    }
-    
-    const fileSize = fs.statSync(backupPath).size;
-    console.log(`Backup file size: ${fileSize} bytes`);
+      // Get all data from Redis
+      const todos = await redisClient.get('todos');
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const backupData = JSON.stringify({
+          timestamp,
+          data: JSON.parse(todos || '[]')
+      });
 
-    const destFileName = `redis-backup-${timestamp}.rdb`;
+      // Create backup file in Google Cloud Storage
+      const bucket = storage.bucket(process.env.BUCKET_NAME);
+      const file = bucket.file(`todos-backup-${timestamp}.json`);
+      
+      await file.save(backupData, {
+          contentType: 'application/json',
+          metadata: {
+              sourceDatabase: process.env.REDIS_HOST,
+              backupTime: timestamp
+          }
+      });
 
-    // Upload to Google Cloud Storage with metadata
-    await storage.bucket(process.env.BUCKET_NAME).upload(backupPath, {
-      destination: destFileName,
-      metadata: {
-        contentType: 'application/octet-stream',
-        metadata: {
-          sourceDatabase: REDIS_HOST,
-          backupTime: timestamp,
-          fileSize: fileSize
-        }
-      }
-    });
-
-    console.log(`Backup ${destFileName} completed successfully`);
-    await redisClient.quit();
+      console.log(`Backup todos-backup-${timestamp}.json completed successfully`);
+      await redisClient.quit();
   } catch (error) {
-    console.error('Backup failed:', error);
-    process.exit(1);
+      console.error('Backup failed:', error);
+      process.exit(1);
   }
 }
 
