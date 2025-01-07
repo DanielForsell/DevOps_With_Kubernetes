@@ -17,20 +17,31 @@ spec:
           image: PROJECT/IMAGE3
           imagePullPolicy: IfNotPresent
           env:
-              - name: REDIS_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: backup-redis-secrets 
-                    key: REDIS_PASSWORD
-              - name: REDIS_HOST
-                valueFrom:
-                  secretKeyRef:
-                    name: backup-redis-secrets  
-                    key: REDIS_HOST
-              - name: REDIS_PORT
-                valueFrom:
-                  secretKeyRef:
-                    name: backup-redis-secrets 
-                    key: REDIS_PORT
-              - name: BUCKET_NAME
-                value: "danfor-project-backup-database"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backup-redis-secrets 
+                  key: REDIS_PASSWORD
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: backup-redis-secrets  
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: backup-redis-secrets 
+                  key: REDIS_PORT
+            - name: BUCKET_NAME
+              value: "danfor-project-backup-database"
+          volumeMounts:
+            - name: gcp-credentials
+              mountPath: "/gcp"
+              readOnly: true
+      volumes:
+        - name: gcp-credentials
+          secret:
+            secretName: gcp-credentials
+            items:
+              - key: key.json
+                path: credentials.json
