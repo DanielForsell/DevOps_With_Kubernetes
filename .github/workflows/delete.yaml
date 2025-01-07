@@ -9,7 +9,7 @@ env:
   PROJECT_ID: dwk-gke-445811
   GKE_CLUSTER: dwk-cluster
   GKE_ZONE: europe-north1-b
-  BRANCH: ${{ github.ref_name }}
+  BRANCH: ${{ github.event.ref }}
 
 jobs:
   delete-environment:
@@ -52,4 +52,7 @@ jobs:
 
       - name: Delete namespace
         run: |-
-          kubectl delete namespace $BRANCH || echo "Namespace $BRANCH does not exist"
+          NAMESPACE_TO_DELETE=$(echo "$BRANCH" | tr '/' '-')
+          echo "Attempting to delete namespace: $NAMESPACE_TO_DELETE"
+          kubectl get namespace $NAMESPACE_TO_DELETE
+          kubectl delete namespace $NAMESPACE_TO_DELETE --timeout=2m || echo "Namespace $NAMESPACE_TO_DELETE does not exist"
