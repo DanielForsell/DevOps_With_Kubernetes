@@ -9,6 +9,7 @@ resources:
   - todo-backend/manifests/deployment.yaml
   - todo-backend/manifests/service.yaml
   - todo-backend/manifests/secret.yaml
+  - backup-database/manifests/deployment.yaml
   - backup-database/manifests/job.yaml
   - backup-database/manifests/secret.yaml
 images:

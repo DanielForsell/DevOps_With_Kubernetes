@@ -16,6 +16,10 @@ spec:
         - name: database-backup
           image: PROJECT/IMAGE3
           imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "100Mi"
           env:
             - name: REDIS_PASSWORD
               valueFrom:

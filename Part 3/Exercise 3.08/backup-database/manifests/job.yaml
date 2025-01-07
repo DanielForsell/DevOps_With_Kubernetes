@@ -3,38 +3,43 @@ kind: CronJob
 metadata:
   name: database-backup
 spec:
-  schedule: "0 0 * * *"  # Runs at midnight every day
+  schedule: "0 0 * * *"
   jobTemplate:
     spec:
       template:
         spec:
           containers:
           - name: backup
-            image: PROJECT/IMAGE3
+            image: database-backup
             imagePullPolicy: IfNotPresent
             env:
               - name: REDIS_PASSWORD
                 valueFrom:
                   secretKeyRef:
-                    name: backup-redis-secrets
+                    name: backup-redis-secrets  # Updated to the correct secret name
                     key: REDIS_PASSWORD
               - name: REDIS_HOST
                 valueFrom:
                   secretKeyRef:
-                    name: backup-redis-secrets
+                    name: backup-redis-secrets  # Same secret for REDIS_HOST
                     key: REDIS_HOST
               - name: REDIS_PORT
                 valueFrom:
                   secretKeyRef:
-                    name: backup-redis-secrets
+                    name: backup-redis-secrets  # Same secret for REDIS_PORT
                     key: REDIS_PORT
               - name: BUCKET_NAME
-                value: "your-bucket-name"
+                value: "danfor-project-backup-database"
             volumeMounts:
+              - name: redis-data
+                mountPath: /data
               - name: gcp-credentials
                 mountPath: "/gcp"
                 readOnly: true
           volumes:
+            - name: redis-data
+              persistentVolumeClaim:
+                claimName: data-redis-0
             - name: gcp-credentials
               secret:
                 secretName: gcp-credentials
