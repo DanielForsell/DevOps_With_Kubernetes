@@ -2,17 +2,11 @@ const Redis = require('redis');
 const { Storage } = require('@google-cloud/storage');
 const fs = require('fs');
 
-// Assuming environment variables are set from the Kubernetes Secret
-const REDIS_HOST = process.env.REDIS_HOST;
-const REDIS_PASSWORD = process.env.REDIS_PASSWORD;
-const REDIS_PORT = process.env.REDIS_PORT || 6379;
-const BUCKET_NAME = process.env.BUCKET_NAME;
-
 const redisClient = Redis.createClient({
-  password: REDIS_PASSWORD,
+  password: process.env.REDIS_PASSWORD,
   socket: {
-    host: REDIS_HOST,
-    port: REDIS_PORT
+      host: process.env.REDIS_HOST,
+      port: process.env.REDIS_PORT || 6379
   },
   retryStrategy: function(times) {
       const delay = Math.min(times * 50, 2000);
@@ -50,7 +44,7 @@ async function backup() {
     const destFileName = `redis-backup-${timestamp}.rdb`;
 
     // Upload to Google Cloud Storage with metadata
-    await storage.bucket(BUCKET_NAME).upload(backupPath, {
+    await storage.bucket(process.env.BUCKET_NAME).upload(backupPath, {
       destination: destFileName,
       metadata: {
         contentType: 'application/octet-stream',
