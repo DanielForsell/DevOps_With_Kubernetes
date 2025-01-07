@@ -57,6 +57,14 @@ jobs:
       - name: Push Image 3
         run: docker push "gcr.io/$PROJECT_ID/database-backup:$BRANCH-$GITHUB_SHA"
 
+      # Create GKE Secret (GCP credentials) from GitHub Secret
+      - name: Create GKE Secret for GCP credentials
+        run: |
+          echo "${{ secrets.GKE_SA_KEY }}" | base64 --decode > /tmp/gcp-credentials.json
+          kubectl create secret generic gcp-credentials \
+            --from-file=credentials.json=/tmp/gcp-credentials.json \
+            --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
 
