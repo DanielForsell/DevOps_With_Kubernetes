@@ -16,8 +16,18 @@ spec:
               - name: REDIS_PASSWORD
                 valueFrom:
                   secretKeyRef:
-                    name: frontend-redis-secrets
+                    name: backup-redis-secrets  # Updated to the correct secret name
                     key: REDIS_PASSWORD
+              - name: REDIS_HOST
+                valueFrom:
+                  secretKeyRef:
+                    name: backup-redis-secrets  # Same secret for REDIS_HOST
+                    key: REDIS_HOST
+              - name: REDIS_PORT
+                valueFrom:
+                  secretKeyRef:
+                    name: backup-redis-secrets  # Same secret for REDIS_PORT
+                    key: REDIS_PORT
               - name: BUCKET_NAME
                 value: "danfor-project-backup-database"
             volumeMounts:

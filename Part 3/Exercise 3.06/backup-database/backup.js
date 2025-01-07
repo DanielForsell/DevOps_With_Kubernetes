@@ -1,16 +1,23 @@
-const Redis = require('ioredis');
+const Redis = require('redis');
 const { Storage } = require('@google-cloud/storage');
 const fs = require('fs');
 
-const REDIS_HOST = process.env.REDIS_HOST || 'redis-service';
+// Assuming environment variables are set from the Kubernetes Secret
+const REDIS_HOST = process.env.REDIS_HOST;
 const REDIS_PASSWORD = process.env.REDIS_PASSWORD;
+const REDIS_PORT = process.env.REDIS_PORT || 6379;
 const BUCKET_NAME = process.env.BUCKET_NAME;
 
-const redis = new Redis({
-  host: REDIS_HOST,
+const redisClient = Redis.createClient({
   password: REDIS_PASSWORD,
+  socket: {
+    host: REDIS_HOST,
+    port: REDIS_PORT
+  },
   retryStrategy: (times) => Math.min(times * 50, 2000)
 });
+
+redisClient.on('error', (err) => console.error('Redis Client Error', err));
 
 const storage = new Storage({
   keyFilename: '/gcp/credentials.json'
@@ -19,11 +26,11 @@ const storage = new Storage({
 async function backup() {
   try {
     // Ensure Redis connection
-    await redis.ping();
+    await redisClient.connect();
     console.log('Connected to Redis');
 
     // Trigger Redis SAVE command
-    const saveResult = await redis.save();
+    const saveResult = await redisClient.save();
     console.log('SAVE command result:', saveResult);
     
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
@@ -53,7 +60,7 @@ async function backup() {
     });
 
     console.log(`Backup ${destFileName} completed successfully`);
-    await redis.quit();
+    await redisClient.quit();
   } catch (error) {
     console.error('Backup failed:', error);
     process.exit(1);
