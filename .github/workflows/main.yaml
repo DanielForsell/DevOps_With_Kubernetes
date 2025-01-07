@@ -51,6 +51,12 @@ jobs:
       - name: Push Image 2
         run: docker push "gcr.io/$PROJECT_ID/todo-app:$BRANCH-$GITHUB_SHA"
 
+      - name: Build Image 3
+        run: docker build --tag "gcr.io/$PROJECT_ID/database-backup:$BRANCH-$GITHUB_SHA" "./Part 3/Exercise 3.06/backup-database"
+
+      - name: Push Image 3
+        run: docker push "gcr.io/$PROJECT_ID/database-backup:$BRANCH-$GITHUB_SHA"
+
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
 
@@ -62,7 +68,8 @@ jobs:
           kustomize edit set namespace ${GITHUB_REF#refs/heads/}
           kustomize edit set image \
             PROJECT/IMAGE=gcr.io/$PROJECT_ID/todo-backend:${GITHUB_REF#refs/heads/}-$GITHUB_SHA \
-            PROJECT/IMAGE2=gcr.io/$PROJECT_ID/todo-app:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
+            PROJECT/IMAGE2=gcr.io/$PROJECT_ID/todo-app:${GITHUB_REF#refs/heads/}-$GITHUB_SHA \
+            PROJECT/IMAGE3=gcr.io/$PROJECT_ID/database-backup:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment/todo-backend
           kubectl rollout status deployment/todo-app
