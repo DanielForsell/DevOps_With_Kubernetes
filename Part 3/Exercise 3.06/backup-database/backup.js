@@ -14,7 +14,10 @@ const redisClient = Redis.createClient({
     host: REDIS_HOST,
     port: REDIS_PORT
   },
-  retryStrategy: (times) => Math.min(times * 50, 2000)
+  retryStrategy: function(times) {
+      const delay = Math.min(times * 50, 2000);
+      return delay;
+  }
 });
 
 redisClient.on('error', (err) => console.error('Redis Client Error', err));
