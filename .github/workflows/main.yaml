@@ -39,14 +39,14 @@ jobs:
 
       # Build, tag, and push the first image
       - name: Build Image 1
-        run: docker build --tag "gcr.io/$PROJECT_ID/todo-backend:$BRANCH-$GITHUB_SHA" "./Part 3/Exercise 3.05/todo-backend"
+        run: docker build --tag "gcr.io/$PROJECT_ID/todo-backend:$BRANCH-$GITHUB_SHA" "./Part 3/Exercise 3.06/todo-backend"
 
       - name: Push Image 1
         run: docker push "gcr.io/$PROJECT_ID/todo-backend:$BRANCH-$GITHUB_SHA"
 
       # Build, tag, and push the second image
       - name: Build Image 2
-        run: docker build --tag "gcr.io/$PROJECT_ID/todo-app:$BRANCH-$GITHUB_SHA" "./Part 3/Exercise 3.05/Project-serve-v1.4.2"
+        run: docker build --tag "gcr.io/$PROJECT_ID/todo-app:$BRANCH-$GITHUB_SHA" "./Part 3/Exercise 3.06/Project-serve-v1.4.2"
 
       - name: Push Image 2
         run: docker push "gcr.io/$PROJECT_ID/todo-app:$BRANCH-$GITHUB_SHA"
@@ -58,7 +58,7 @@ jobs:
         run: |-
           kubectl create namespace ${GITHUB_REF#refs/heads/} || true
           kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
-          cd "./Part 3/Exercise 3.05"
+          cd "./Part 3/Exercise 3.06"
           kustomize edit set namespace ${GITHUB_REF#refs/heads/}
           kustomize edit set image \
             PROJECT/IMAGE=gcr.io/$PROJECT_ID/todo-backend:${GITHUB_REF#refs/heads/}-$GITHUB_SHA \
