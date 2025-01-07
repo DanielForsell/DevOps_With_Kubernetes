@@ -44,6 +44,6 @@ spec:
               secret:
                 secretName: gcp-credentials
                 items:
-                - key: credentials.json
+                - key: key.json
                   path: credentials.json
           restartPolicy: OnFailure
