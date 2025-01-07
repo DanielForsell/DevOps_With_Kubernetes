@@ -20,6 +20,27 @@ const storage = new Storage({
   keyFilename: '/gcp/credentials.json'
 });
 
+
+async function shutdown(exitCode = 0) {
+    console.log('Initiating graceful shutdown...');
+    try {
+      if (redisClient.isOpen) {
+        console.log('Closing Redis connection...');
+        await redisClient.quit();
+      }
+      console.log('Shutdown completed successfully');
+      process.exit(exitCode);
+    } catch (error) {
+      console.error('Error during shutdown:', error);
+      process.exit(1);
+    }
+  }
+
+  process.on('SIGTERM', () => {
+    console.log('Received SIGTERM signal');
+    shutdown();
+  });
+
 async function backup() {
   try {
       // Connect to Redis
@@ -47,10 +68,10 @@ async function backup() {
       });
 
       console.log(`Backup todos-backup-${timestamp}.json completed successfully`);
-      await redisClient.quit();
+      await shutdown(0)
   } catch (error) {
       console.error('Backup failed:', error);
-      process.exit(1);
+      await shutdown(1);
   }
 }
 
