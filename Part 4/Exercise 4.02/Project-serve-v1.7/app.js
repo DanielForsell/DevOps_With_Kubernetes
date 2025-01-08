@@ -18,7 +18,7 @@ app.use(middleware.tokenExtractor)
 app.use(middleware.userExtractor)
 
 app.use('/api/image', imageRouter)
-// app.use('/healthz', healthRouter)
+app.use('/healthz', healthRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)

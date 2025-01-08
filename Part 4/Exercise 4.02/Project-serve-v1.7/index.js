@@ -6,9 +6,9 @@ app.get('/', (req, res) => {
   res.status(200)
 })
 
-app.get('/healthz', (req, res) => {
-  res.status(200)
-})
+// app.get('/healthz', (req, res) => {
+//   res.status(200)
+// })
 
 app.listen(config.PORT, () => {
   logger.info(`Server running on port ${config.PORT}`)
