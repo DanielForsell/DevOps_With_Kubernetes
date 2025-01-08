@@ -15,6 +15,18 @@ spec:
       containers:
       - name: todo-app
         image: PROJECT/IMAGE2
+        readinessProbe:
+            initialDelaySeconds: 10 # Initial delay until the readiness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+               path: /healthz
+               port: 3001
+        livenessProbe:
+            initialDelaySeconds: 20 # Initial delay until the liveness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+               path: /healthz
+               port: 3001
         imagePullPolicy: IfNotPresent
         resources:
           limits:

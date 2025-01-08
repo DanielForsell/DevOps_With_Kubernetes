@@ -4,6 +4,7 @@ require('express-async-errors')
 const app = express()
 const cors = require('cors')
 const imageRouter = require('./controllers/image');
+const healthRouter = require('./controllers/health')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 
@@ -17,6 +18,7 @@ app.use(middleware.tokenExtractor)
 app.use(middleware.userExtractor)
 
 app.use('/api/image', imageRouter)
+// app.use('/healthz', healthRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
