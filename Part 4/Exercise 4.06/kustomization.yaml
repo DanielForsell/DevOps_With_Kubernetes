@@ -15,6 +15,7 @@ resources:
   - backup-database/manifests/secret.yaml
 
   - broadcaster/manifests/Deployment.yaml
+  - broadcaster/manifests/secret.yaml
 images:
   - name: PROJECT/IMAGE
     newName: gcr.io/dwk-gke-445811/todo-backend
