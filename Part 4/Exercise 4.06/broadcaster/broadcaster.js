@@ -27,18 +27,10 @@ async function startBroadcaster() {
             
             switch (msg.subject) {
                 case 'todo.created':
-                    telegramMessage = `🆕 New Todo Created:
-                                        Todo id: \n${data.id}
-                                        Todo: \n${data.task}
-                                        Status: \n${data.done}
-                                        Date: \n${data.created_at}`;
+                    telegramMessage = `🆕 New Todo Created:\nTodo id :${data.id}\nTodo: ${data.task}\nStatus: ${data.done}\nDate created: ${data.created_at}`;
                     break;
                 case 'todo.updated':
-                    telegramMessage = `📝 Todo Status Updated with status:
-                                        Status: \n${data.done}\n
-                                        Todo id: \n${data.id}
-                                        Todo: \n${data.task}
-                                        Date: \n${data.created_at}`;
+                    telegramMessage = `📝 Todo Status Updated with status:\nStatus: ${data.done}\nTodo id: ${data.id}\nTodo: ${data.task}\nDate: ${data.created_at}`;
                     break;
                 case 'todo.deleted':
                     telegramMessage = `🗑️ Todo Deleted with ID:\n${data.id}`;
