@@ -13,8 +13,7 @@ resources:
 images:
   - name: IMAGE1
     newName: log-output
-    newTag: v1
   - name: IMAGE2
     newName: ping-pong
-    newTag: v1
+    
     
