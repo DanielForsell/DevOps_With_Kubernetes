@@ -3,7 +3,16 @@ kind: Kustomization
 namespace: staging
 
 resources:
-  - ../../kustomization.yaml
+  - database/statefullset.yaml
+  - project/deployment.yaml
+  - project/service.yaml
+  - project/ingress.yaml
+  - project/secret.yaml
+  - todo-backend/deployment.yaml
+  - todo-backend/service.yaml
+  - todo-backend/secret.yaml
+  - broadcaster/Deployment.yaml
+  - broadcaster/secret.yaml
 
 images:
   - name: PROJECT/IMAGE1

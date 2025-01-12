@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: production
 
 resources:
-  - ../../base
+  
   - manifests/job.yaml
   - manifests/secret.yaml
 images:
