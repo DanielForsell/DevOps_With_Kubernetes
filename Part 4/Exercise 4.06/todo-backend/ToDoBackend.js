@@ -21,6 +21,8 @@ async function setupNATS() {
     }
 }
 
+setupNATS();
+
 const redisClient = Redis.createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
@@ -39,7 +41,7 @@ redisClient.on('error', err => console.error('Redis Client Error', err));
     try {
         await redisClient.connect();
         console.log('Connected to Redis');
-        await setupNATS();
+        
 
         const exists = await redisClient.exists('todos');
         if (!exists) {
