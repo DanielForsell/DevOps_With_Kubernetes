@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: staging
 
 resources:
-  - ../../base
+  - ../../kustomization.yaml
 
 images:
   - name: PROJECT/IMAGE1
