@@ -3,21 +3,24 @@ kind: Kustomization
 namespace: staging
 
 resources:
-  - database/statefullset.yaml
-  - project/deployment.yaml
-  - project/service.yaml
-  - project/ingress.yaml
-  - project/secret.yaml
-  - todo-backend/deployment.yaml
-  - todo-backend/service.yaml
-  - todo-backend/secret.yaml
-  - Deployment.yaml
-  - broadcaster/secret.yaml
+- database/statefullset.yaml
+- project/deployment.yaml
+- project/service.yaml
+- project/ingress.yaml
+- project/secret.yaml
+- todo-backend/deployment.yaml
+- todo-backend/service.yaml
+- todo-backend/secret.yaml
+- Deployment.yaml
+- broadcaster/secret.yaml
 
 images:
-  - name: PROJECT/IMAGE1
-    newName: danfor1/todo-backend
-  - name: PROJECT/IMAGE2
-    newName: danfor1/todo-app
-  - name: PROJECT/IMAGE4
-    newName: danfor1/broadcaster
+- name: PROJECT/IMAGE1
+  newName: danfor1/todo-backend
+  newTag: d8a787ac6429b021d114b6c5c21c44a6356ed8a8
+- name: PROJECT/IMAGE2
+  newName: danfor1/todo-app
+  newTag: d8a787ac6429b021d114b6c5c21c44a6356ed8a8
+- name: PROJECT/IMAGE4
+  newName: danfor1/broadcaster
+  newTag: d8a787ac6429b021d114b6c5c21c44a6356ed8a8
