@@ -34,7 +34,7 @@ jobs:
 
       - name: Update images in kustomization
         run: |-
-          cd ./Part 4/Exercise 4.07
+          cd ./Part-4/Exercise-4.07
           kustomize edit set image \
             IMAGE1=danfor1/log-output:$GITHUB_SHA \
             IMAGE2=danfor1/ping-pong:$GITHUB_SHA
