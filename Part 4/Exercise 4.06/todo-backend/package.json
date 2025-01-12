@@ -2,8 +2,8 @@
     "name": "app1.1",
     "version": "1.0.0",
     "description": "",
-    "main": "ToDoBackend.js",
     "type": "module",
+    "main": "ToDoBackend.js",
     "scripts": {
         "start": "node ToDoBackend.js"
     },

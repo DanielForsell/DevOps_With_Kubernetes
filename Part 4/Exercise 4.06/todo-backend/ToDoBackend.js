@@ -1,7 +1,7 @@
-const express = require('express');
-const Redis = require('redis');
-const app = express();
-const NATS = require('nats')
+import express from 'express';
+import Redis from 'redis';
+import NATS from 'nats';
+import cors from 'cors';
 
 const PORT = process.env.PORT || 3000;
 
