@@ -17,10 +17,10 @@ resources:
 images:
 - name: PROJECT/IMAGE1
   newName: danfor1/todo-backend
-  newTag: 822989e36d71f97c80484ff5b5bd31d21fc80a2f
+  newTag: dce65b6a9fce5abbc83697ddd306588da3cb8bc4
 - name: PROJECT/IMAGE2
   newName: danfor1/todo-app
-  newTag: 822989e36d71f97c80484ff5b5bd31d21fc80a2f
+  newTag: dce65b6a9fce5abbc83697ddd306588da3cb8bc4
 - name: PROJECT/IMAGE4
   newName: danfor1/broadcaster
-  newTag: 822989e36d71f97c80484ff5b5bd31d21fc80a2f
+  newTag: dce65b6a9fce5abbc83697ddd306588da3cb8bc4
