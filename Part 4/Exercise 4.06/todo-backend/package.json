@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "main": "ToDoBackend.js",
+    "type": "module",
     "scripts": {
         "start": "node ToDoBackend.js"
     },
