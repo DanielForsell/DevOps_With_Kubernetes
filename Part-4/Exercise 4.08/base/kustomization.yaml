@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - database/statefullset.yaml
+  # - Project-serve-v1.7/manifests/rollout.yaml
+  - Project-serve-v2.0/manifests/deployment.yaml
+  - Project-serve-v2.0/manifests/service.yaml
+  - Project-serve-v2.0/manifests/ingress.yaml
+  - Project-serve-v2.0/manifests/secret.yaml
+  # - Project-serve-v1.9/manifests/analysistemplate.yaml
+  - todo-backend/manifests/deployment.yaml
+  - todo-backend/manifests/service.yaml
+  - todo-backend/manifests/secret.yaml
+  - backup-database/manifests/job.yaml
+  - backup-database/manifests/secret.yaml
+
+  - broadcaster/manifests/Deployment.yaml
+  - broadcaster/manifests/secret.yaml
+images:
+  - name: PROJECT/IMAGE
+    newName: danfor1/todo-backend
+  - name: PROJECT/IMAGE2
+    newName: danfor1/todo-app
+  - name: PROJECT/IMAGE3
+    newName: danfor1/database-backup
+  - name: PROJECT/IMAGE4
+    newName: danfor1/broadcaster

@@ -1,0 +1,54 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - main
+    
+
+jobs:
+  build-publish:
+    name: Build, Push, Release Main
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and push todo-app
+        run: |-
+          docker build --tag "danfor1/todo-app:$GITHUB_SHA" "./Part 4/Exercise 4.08/Project-server-2.0"
+          docker push "danfor1/todo-app:$GITHUB_SHA"
+
+      - name: Build and push todo-backend
+        run: |-
+          docker build --tag "danfor1/todo-backend:$GITHUB_SHA" "./Part 4/Exercise 4.08/todo-backend"
+          docker push "danfor1/todo-backend:$GITHUB_SHA"
+
+      - name: Build and push broadcaster
+        run: |-
+          docker build --tag "danfor1/broadcaster:$GITHUB_SHA" "./Part 4/Exercise 4.08/broadcaster"
+          docker push "danfor1/broadcaster:$GITHUB_SHA"
+
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v2
+
+      - name: Update images in kustomization
+        run: |-
+          cd ./Part 4/Exercise 4.08/overlays/staging
+          kustomize edit set image \
+            PROJECT/IMAGE1=danfor1/todo-app:$GITHUB_SHA \
+            PROJECT/IMAGE2=danfor1/todo-backend:$GITHUB_SHA \
+            PROJECT/IMAGE4=danfor1/broadcaster:$GITHUB_SHA 
+
+      - name: Commit kustomization.yaml
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: './Part 4/Exercise 4.08/overlays/staging/kustomization.yaml'
+          message: New version released ${{ github.sha }}

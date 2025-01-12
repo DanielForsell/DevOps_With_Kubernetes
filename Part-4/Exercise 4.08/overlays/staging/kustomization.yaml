@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: staging
+
+resources:
+  - ../../base/database/statefullset.yaml
+  - ../../base/Project-serve-v2.0/manifests/deployment.yaml
+  - ../../base/Project-serve-v2.0/manifests/service.yaml
+  - ../../base/Project-serve-v2.0/manifests/ingress.yaml
+  - ../../base/Project-serve-v2.0/manifests/secret.yaml
+  - ../../base/todo-backend/manifests/deployment.yaml
+  - ../../base/todo-backend/manifests/service.yaml
+  - ../../base/todo-backend/manifests/secret.yaml
+  - ./Deployment.yaml
+  - ../../base/broadcaster/manifests/secret.yaml
+
+images:
+  - name: PROJECT/IMAGE1
+    newName: danfor1/todo-backend
+  - name: PROJECT/IMAGE2
+    newName: danfor1/todo-app
+  - name: PROJECT/IMAGE4
+    newName: danfor1/broadcaster
