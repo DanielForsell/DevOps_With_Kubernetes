@@ -27,13 +27,13 @@ async function startBroadcaster() {
             
             switch (msg.subject) {
                 case 'todo.created':
-                    telegramMessage = `🆕 New Todo Created:\n${data.content}`;
+                    telegramMessage = `🆕 New Todo Created:\n${data}`;
                     break;
                 case 'todo.updated':
-                    telegramMessage = `📝 Todo Updated:\n${data.content}`;
+                    telegramMessage = `📝 Todo Updated:\n${data}`;
                     break;
                 case 'todo.deleted':
-                    telegramMessage = `🗑️ Todo Deleted:\n${data.content}`;
+                    telegramMessage = `🗑️ Todo Deleted:\n${data}`;
                     break;
             }
 
