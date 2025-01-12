@@ -4,6 +4,8 @@ namespace: production
 
 resources:
   - ./../../base
+  - manifests/job.yaml
+  - manifests/secret.yaml
 images:
   - name: PROJECT/IMAGE1
     newName: danfor1/todo-backend
