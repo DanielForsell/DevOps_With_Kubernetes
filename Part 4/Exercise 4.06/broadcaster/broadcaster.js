@@ -2,6 +2,10 @@ const NATS = require('nats')
 
 async function startBroadcaster() {
     try {
+
+        const token = process.env.NATS_TOKEN;
+        const chatid = process.env.NATS_CHATID;
+        const bot = new TelegramBot(token, {polling: false});
         
         const nc = await NATS.connect({
             servers: process.env.NATS_URL || 'nats://my-nats:4222'
@@ -18,17 +22,27 @@ async function startBroadcaster() {
             const data = JSON.parse(msg.data.toString());
             console.log(`Received message on ${msg.subject}:`, data);
             
+            let telegramMessage = '';
+            
             switch (msg.subject) {
                 case 'todo.created':
-                    console.log('New todo created:', data);
+                    telegramMessage = `🆕 New Todo Created:\n${data.content}`;
                     break;
                 case 'todo.updated':
-                    console.log('Todo updated:', data);
+                    telegramMessage = `📝 Todo Updated:\n${data.content}`;
                     break;
                 case 'todo.deleted':
-                    console.log('Todo deleted:', data);
+                    telegramMessage = `🗑️ Todo Deleted:\n${data.content}`;
                     break;
             }
+
+            try {
+                await bot.sendMessage(chatId, telegramMessage);
+                console.log('Message sent to Telegram');
+            } catch (telegramError) {
+                console.error('Error sending to Telegram:', telegramError);
+            }
+            
         }
     } catch (error) {
         console.error('Error in broadcaster:', error);

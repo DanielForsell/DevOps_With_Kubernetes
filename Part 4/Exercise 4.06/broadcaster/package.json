@@ -1,7 +1,7 @@
 {
     "name": "app1.1",
     "version": "1.0.0",
-    "description": "",
+    "description": "NATS broadcaster with Telegram integration",
     "main": "broadcaster.js",
     "scripts": {
         "start": "node broadcaster.js"
@@ -9,6 +9,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "nats": "^2.29.1"
+        "nats": "^2.29.1",
+        "node-telegram-bot-api": "^0.66.0"
     }
 }

@@ -91,7 +91,7 @@ app.post('/backend/todos', async (req, res) => {
         console.log('New todo created:', newTodo);
         todos.push(newTodo);
         await redisClient.set('todos', JSON.stringify(todos));
-        console.log('New added to database:', newTodo);
+        console.log('New Todo added to database:', newTodo);
 
         nc.publish('todo.created', JSON.stringify(newTodo));
 
@@ -139,6 +139,7 @@ app.delete('/backend/todos/:id', async (req, res) => {
 
         todos.splice(todoIndex, 1);
         await redisClient.set('todos', JSON.stringify(todos));
+        console.log('Deleted todo with id: ', id);
 
         nc.publish('todo.deleted', JSON.stringify({ id }));
 
