@@ -12,8 +12,8 @@ resources:
   # - database/statefulset.yaml
 images:
   - name: IMAGE1
-    newName: log-output
+    newName: gcr.io/dwk-gke-445811/log-output
   - name: IMAGE2
-    newName: ping-pong
+    newName: gcr.io/dwk-gke-445811/ping-pong
     
     
