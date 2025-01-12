@@ -46,7 +46,7 @@ jobs:
 
       - name: Update images in kustomization
         run: |-
-          cd ./Part-4/Exercise 4.08/overlays/prod
+          cd "./Part-4/Exercise 4.08/overlays/prod"
           kustomize edit set image \
             PROJECT/IMAGE1=danfor1/todo-app:$GITHUB_SHA \
             PROJECT/IMAGE2=danfor1/todo-backend:$GITHUB_SHA \
