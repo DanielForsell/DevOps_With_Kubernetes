@@ -1,10 +1,11 @@
 const NATS = require('nats')
+const TelegramBot = require('node-telegram-bot-api');
 
 async function startBroadcaster() {
     try {
 
-        const token = process.env.NATS_TOKEN;
-        const chatid = process.env.NATS_CHATID;
+        const token = process.env.TELEGRAM_BOT_TOKEN;
+        const chatid = process.env.TELEGRAM_CHAT_ID;
         const bot = new TelegramBot(token, {polling: false});
         
         const nc = await NATS.connect({
@@ -37,12 +38,12 @@ async function startBroadcaster() {
             }
 
             try {
-                await bot.sendMessage(chatId, telegramMessage);
+                await bot.sendMessage(chatid, telegramMessage);
                 console.log('Message sent to Telegram');
             } catch (telegramError) {
                 console.error('Error sending to Telegram:', telegramError);
             }
-            
+
         }
     } catch (error) {
         console.error('Error in broadcaster:', error);
