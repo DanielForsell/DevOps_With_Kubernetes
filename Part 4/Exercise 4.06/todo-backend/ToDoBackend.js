@@ -10,11 +10,11 @@ let nc
 async function setupNATS() {
     try {
         nc = await NATS.connect({
-            url: process.env.NATS_URL || 'nats://my-nats:4222'
+            url: process.env.NATS_URL || 'nats://my-nats.default.svc.cluster.local:4222'
         })
 
     console.log('Connected to NATS server');
-        
+    return nc;    
     } catch (error) {
         console.error('Error connecting to NATS:', error);
         process.exit(1);
