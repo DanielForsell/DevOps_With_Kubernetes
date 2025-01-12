@@ -22,13 +22,13 @@ jobs:
       # Build and push log-output image
       - name: Build and push log-output
         run: |-
-          docker build --tag "log-output:$GITHUB_SHA" ./Part 4/Exercise 4.07/logoutput
+          docker build --tag "log-output:$GITHUB_SHA" "./Part 4/Exercise 4.07/logoutput"
           docker push "log-output:$GITHUB_SHA"
 
       # Build and push ping-pong image  
       - name: Build and push ping-pong
         run: |-
-          docker build --tag "ping-pong:$GITHUB_SHA" ./Part 4/Exercise 4.07/pingpong
+          docker build --tag "ping-pong:$GITHUB_SHA" "./Part 4/Exercise 4.07/pingpong"
           docker push "ping-pong:$GITHUB_SHA"
 
       - name: Set up Kustomize
