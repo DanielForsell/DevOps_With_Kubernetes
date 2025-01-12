@@ -43,8 +43,8 @@ jobs:
         run: |-
           cd "./Part-4/Exercise 4.08/overlays/staging"
           kustomize edit set image \
-            PROJECT/IMAGE1=danfor1/todo-app:$GITHUB_SHA \
-            PROJECT/IMAGE2=danfor1/todo-backend:$GITHUB_SHA \
+            PROJECT/IMAGE1=danfor1/todo-backend:$GITHUB_SHA \
+            PROJECT/IMAGE2=danfor1/todo-app:$GITHUB_SHA \
             PROJECT/IMAGE4=danfor1/broadcaster:$GITHUB_SHA 
 
       - name: Commit kustomization.yaml
