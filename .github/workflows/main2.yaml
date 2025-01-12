@@ -42,5 +42,5 @@ jobs:
       - name: Commit kustomization.yaml
         uses: EndBug/add-and-commit@v9
         with:
-          add: 'kustomization.yaml'
+          add: './Part-4/Exercise-4.07/kustomization.yaml'
           message: New version released ${{ github.sha }}
