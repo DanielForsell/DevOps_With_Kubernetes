@@ -3,16 +3,16 @@ kind: Kustomization
 namespace: staging
 
 resources:
-  - ../../database/statefullset.yaml
-  - ../../Project-serve-v2.0/manifests/deployment.yaml
-  - ../../Project-serve-v2.0/manifests/service.yaml
-  - ../../Project-serve-v2.0/manifests/ingress.yaml
-  - ../../Project-serve-v2.0/manifests/secret.yaml
-  - ../../todo-backend/manifests/deployment.yaml
-  - ../../todo-backend/manifests/service.yaml
-  - ../../todo-backend/manifests/secret.yaml
+  - ./../../database/statefullset.yaml
+  - ./../../Project-serve-v2.0/manifests/deployment.yaml
+  - ./../../Project-serve-v2.0/manifests/service.yaml
+  - ./../../Project-serve-v2.0/manifests/ingress.yaml
+  - ./../../Project-serve-v2.0/manifests/secret.yaml
+  - ./../../todo-backend/manifests/deployment.yaml
+  - ./../../todo-backend/manifests/service.yaml
+  - ./../../todo-backend/manifests/secret.yaml
   - ./Deployment.yaml
-  - ../../broadcaster/manifests/secret.yaml
+  - ./../../broadcaster/manifests/secret.yaml
 
 images:
   - name: PROJECT/IMAGE1
