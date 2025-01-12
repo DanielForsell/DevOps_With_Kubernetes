@@ -1,19 +1,19 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources:
-  - logoutput/manifests/deployment.yaml
-  - logoutput/manifests/ingress.yaml
-  - logoutput/manifests/service.yaml
-  - logoutput/manifests/secret.yaml
 
-  - pingpong/manifests/deployment.yaml
-  - pingpong/manifests/service.yaml
+resources:
+- logoutput/manifests/deployment.yaml
+- logoutput/manifests/ingress.yaml
+- logoutput/manifests/service.yaml
+- logoutput/manifests/secret.yaml
+- pingpong/manifests/deployment.yaml
+- pingpong/manifests/service.yaml
 
   # - database/statefulset.yaml
 images:
-  - name: IMAGE1
-    newName: danfor1/log-output
-  - name: IMAGE2
-    newName: danfor1/ping-pong
-    
-    
+- name: IMAGE1
+  newName: danfor1/log-output
+  newTag: 897f1ec078ea8fcc5e6e7f72ce4f3c7af471fc8f
+- name: IMAGE2
+  newName: danfor1/ping-pong
+  newTag: 897f1ec078ea8fcc5e6e7f72ce4f3c7af471fc8f
