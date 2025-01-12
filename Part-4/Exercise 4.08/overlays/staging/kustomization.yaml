@@ -11,7 +11,7 @@ resources:
   - todo-backend/deployment.yaml
   - todo-backend/service.yaml
   - todo-backend/secret.yaml
-  - broadcaster/Deployment.yaml
+  - Deployment.yaml
   - broadcaster/secret.yaml
 
 images:
