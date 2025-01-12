@@ -9,19 +9,27 @@ let nc
 
 async function setupNATS() {
     try {
-        nc = NATS.connect({
-            url: process.env.NATS_URL || 'nats://my-nats:4222'
-        })
+        nc = await new Promise((resolve, reject) => {
+            const client = NATS.connect({
+                url: process.env.NATS_URL || 'nats://my-nats:4222'
+            });
 
-    console.log('Connected to NATS server');
-    return nc;    
+            client.on('connect', () => {
+                console.log('Connected to NATS server');
+                resolve(client);
+            });
+
+            client.on('error', (err) => {
+                console.error('Error connecting to NATS:', err);
+                reject(err);
+            });
+        });
+        return nc;
     } catch (error) {
-        console.error('Error connecting to NATS:', error);
-        process.exit(1);
+        console.error('Failed to connect to NATS:', error);
+        process.exit(1); 
     }
 }
-
-setupNATS();
 
 const redisClient = Redis.createClient({
     password: process.env.REDIS_PASSWORD,
@@ -39,6 +47,8 @@ redisClient.on('error', err => console.error('Redis Client Error', err));
 
 (async () => {
     try {
+        await setupNATS();
+
         await redisClient.connect();
         console.log('Connected to Redis');
         
@@ -48,7 +58,7 @@ redisClient.on('error', err => console.error('Redis Client Error', err));
             await redisClient.set('todos', JSON.stringify([]));
         }
     } catch (err) {
-        console.error('Redis connection failed:', err);
+        console.error('Error during setup:', err);
     }
 })();
 
