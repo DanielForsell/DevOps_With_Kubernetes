@@ -1,0 +1,57 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: todo-app
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: todo-app
+  strategy:
+    canary:
+      steps:
+      - setWeight: 50
+      - analysis:
+          templates:
+          - templateName: restart-rate
+  template:
+    metadata:
+      labels:
+        app: todo-app
+    spec:
+      containers:
+      - name: todo-app
+        image: PROJECT/IMAGE2
+        readinessProbe:
+            initialDelaySeconds: 10 # Initial delay until the readiness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+               path: /healthz
+               port: 3001
+        livenessProbe:
+            initialDelaySeconds: 20 # Initial delay until the liveness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+               path: /healthz
+               port: 3001
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: "350m"
+            memory: "150Mi"
+        env:
+              - name: REDIS_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: frontend-redis-secrets
+                    key: REDIS_PASSWORD
+              - name: REDIS_HOST
+                valueFrom:
+                  secretKeyRef:
+                    name: frontend-redis-secrets
+                    key: REDIS_HOST
+              - name: REDIS_PORT
+                valueFrom:
+                  secretKeyRef:
+                    name: frontend-redis-secrets
+                    key: REDIS_PORT

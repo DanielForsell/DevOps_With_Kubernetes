@@ -3,15 +3,28 @@ kind: Kustomization
 namespace: production
 
 resources:
-  
-  - manifests/job.yaml
-  - manifests/secret.yaml
+  - database/statefullset.yaml
+  - project/deployment.yaml
+  - project/service.yaml
+  - project/ingress.yaml
+  - project/secret.yaml
+  - todo-backend/deployment.yaml
+  - todo-backend/service.yaml
+  - todo-backend/secret.yaml
+  - Deployment.yaml
+  - broadcaster/secret.yaml
+  - backup-databse/job.yaml
+  - backup-databse/secret.yaml
 images:
   - name: PROJECT/IMAGE1
     newName: danfor1/todo-backend
+    newTag: v1.0
   - name: PROJECT/IMAGE2
     newName: danfor1/todo-app
+    newTag: v1.0
   - name: PROJECT/IMAGE3
     newName: danfor1/database-backup
+    newTag: v1.0
   - name: PROJECT/IMAGE4
     newName: danfor1/broadcaster
+    newTag: v1.0
