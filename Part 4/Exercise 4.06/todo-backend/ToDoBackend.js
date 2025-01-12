@@ -3,6 +3,7 @@ import Redis from 'redis';
 import NATS from 'nats';
 import cors from 'cors';
 
+const app = express();
 const PORT = process.env.PORT || 3000;
 
 const nc = await NATS.connect({
