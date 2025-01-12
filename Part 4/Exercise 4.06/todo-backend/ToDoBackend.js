@@ -5,21 +5,11 @@ const NATS = require('nats')
 
 const PORT = process.env.PORT || 3000;
 
-let nc
-
-async function setupNATS() {
-    try {
-        nc = await NATS.connect({
-            url: process.env.NATS_URL || 'nats://my-nats:4222'
+const nc = await NATS.connect({
+            servers: process.env.NATS_URL || 'nats://my-nats:4222'
         });
 
-        console.log('Connected to NATS server');
-        return nc;
-    } catch (error) {
-        console.error('Failed to connect to NATS:', error);
-        process.exit(1); 
-    }
-}
+console.log('Connected to NATS');
 
 const redisClient = Redis.createClient({
     password: process.env.REDIS_PASSWORD,
@@ -37,8 +27,6 @@ redisClient.on('error', err => console.error('Redis Client Error', err));
 
 (async () => {
     try {
-        await setupNATS();
-
         await redisClient.connect();
         console.log('Connected to Redis');
         
