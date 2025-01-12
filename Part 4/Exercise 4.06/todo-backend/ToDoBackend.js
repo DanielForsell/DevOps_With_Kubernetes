@@ -9,21 +9,11 @@ let nc
 
 async function setupNATS() {
     try {
-        nc = NATS.connect({
+        nc = await NATS.connect({
             url: process.env.NATS_URL || 'nats://my-nats:4222'
         })
 
     console.log('Connected to NATS server');
-        
-        
-        nc.closed()
-            .then((err) => {
-                console.log('NATS connection closed', err);
-            })
-            .catch((err) => {
-                console.error('NATS connection error:', err);
-            });
-        
         
     } catch (error) {
         console.error('Error connecting to NATS:', error);
