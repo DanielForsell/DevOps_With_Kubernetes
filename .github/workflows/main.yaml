@@ -2,6 +2,7 @@ name: Release application
 
 on:
   push:
+    branches: [main]
 
 env:
   PROJECT_ID: dwk-gke-445811

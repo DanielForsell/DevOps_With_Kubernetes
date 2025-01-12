@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - logoutput/manifests/deployment.yaml
+  - logoutput/manifests/ingress.yaml
+  - logoutput/manifests/service.yaml
+  - logoutput/manifests/secret.yaml
+
+  - pingpong/manifests/deployment.yaml
+  - pingpong/manifests/service.yaml
+
+  # - database/statefulset.yaml
+images:
+  - name: IMAGE1
+    newName: log-output
+    newTag: v1
+  - name: IMAGE2
+    newName: ping-pong
+    newTag: v1
+    
