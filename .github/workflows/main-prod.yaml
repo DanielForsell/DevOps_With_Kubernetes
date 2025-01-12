@@ -23,7 +23,7 @@ jobs:
 
       - name: Build and push todo-app
         run: |-
-          docker build --tag "danfor1/todo-app:$GITHUB_SHA" "./Part 4/Exercise-4.08/Project-server-v2.0"
+          docker build --tag "danfor1/todo-app:$GITHUB_SHA" "./Part-4/Exercise-4.08/Project-server-v2.0"
           docker push "danfor1/todo-app:$GITHUB_SHA"
 
       - name: Build and push todo-backend

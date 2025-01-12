@@ -18,13 +18,12 @@ resources:
 images:
   - name: PROJECT/IMAGE1
     newName: danfor1/todo-backend
-    newTag: v1.0
+
   - name: PROJECT/IMAGE2
     newName: danfor1/todo-app
-    newTag: v1.0
+
   - name: PROJECT/IMAGE3
     newName: danfor1/database-backup
-    newTag: v1.0
+
   - name: PROJECT/IMAGE4
     newName: danfor1/broadcaster
-    newTag: v1.0
