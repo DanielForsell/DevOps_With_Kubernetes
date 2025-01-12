@@ -9,21 +9,11 @@ let nc
 
 async function setupNATS() {
     try {
-        nc = await new Promise((resolve, reject) => {
-            const client = NATS.connect({
-                url: process.env.NATS_URL || 'nats://my-nats:4222'
-            });
-
-            client.on('connect', () => {
-                console.log('Connected to NATS server');
-                resolve(client);
-            });
-
-            client.on('error', (err) => {
-                console.error('Error connecting to NATS:', err);
-                reject(err);
-            });
+        nc = await NATS.connect({
+            url: process.env.NATS_URL || 'nats://my-nats:4222'
         });
+
+        console.log('Connected to NATS server');
         return nc;
     } catch (error) {
         console.error('Failed to connect to NATS:', error);
